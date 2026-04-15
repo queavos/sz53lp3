@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title th:text="${title}"></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/webjars/tailwindcss/tailwind.min.css}">
+ <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 p-6">
+      <h3>Categoria</h3>
+      <ul class="text-2xl font-bold mb-4">
+          <li th:each="cat : ${categorias}">
+              <span th:text="${cat.id}"></span> - 
+              <span th:text="${cat.nombre}"></span>
+          </li> 
+      </ul>
+      <p>fin de lista
+</p>
+  </body>
+</html>
