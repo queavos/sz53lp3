@@ -11,7 +11,7 @@ package lp3.unae.demo.demoapp.model;
 public class Categoria {
     private int id;
     private String nombre;
-
+    
     public Categoria(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;

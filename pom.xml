@@ -63,6 +63,16 @@
             <version>4.2.2</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>5.3.3</version> <!-- Check for latest version -->
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator-core</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
