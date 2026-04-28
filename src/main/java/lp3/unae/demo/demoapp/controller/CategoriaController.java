@@ -7,6 +7,7 @@ package lp3.unae.demo.demoapp.controller;
 import java.util.ArrayList;
 import java.util.List;
 import lp3.unae.demo.demoapp.model.Categoria;
+import lp3.unae.demo.demoapp.services.CategoriaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,16 +29,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequestMapping("/categorias")
 public class CategoriaController {
 
-    private int siguienteId = 6;
-    private final List<Categoria> categorias = new ArrayList<>();
-
-    public CategoriaController() {
-        this.cargarDatos();
+    //private int siguienteId = 6;
+    //private final List<Categoria> categorias = new ArrayList<>();
+    private final CategoriaService catServ;
+    
+    public CategoriaController(CategoriaService catServ) {
+       // this.cargarDatos();
+       this.catServ=catServ;
     }
 
     @GetMapping("/")
     public String mostrarCategoria(Model model) {
-        model.addAttribute("categorias", categorias);
+        model.addAttribute("categorias", catServ.listar());
         model.addAttribute("title", "Lista Categorias");
         return "categoria/index";
     }
@@ -53,46 +56,52 @@ public class CategoriaController {
     }
 
     @PostMapping("/guardar")
-    public String guardar(@ModelAttribute Categoria categoria) {
-        categoria.setId(siguienteId++);
-        categorias.add(categoria);
+    public String guardar(@ModelAttribute Categoria categoria, Model model) {
+        try {
+        catServ.crear(categoria);
         return "redirect:/categorias/";
+        } catch (RuntimeException e) {
+        model.addAttribute("modoedicion", false);
+        model.addAttribute("categoria", categoria);
+        model.addAttribute("title", "Nueva Categoria");
+        return "categoria/form";
+        }
+       // categoria.setId(siguienteId++);
+        //categorias.add(categoria);
+        
     }
 
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable int id) {
-        categorias.removeIf(c -> c.getId() == id);
-        return "redirect:/categorias/";
+       // categorias.removeIf(c -> c.getId() == id);
+       catServ.eliminar(id);
+       return "redirect:/categorias/";
     }
 
     @GetMapping("/editar/{id}")
     private String Editar(@PathVariable int id, Model model) {
-        Categoria cat = buscarPorId(id);
+        Categoria cat = catServ.buscarpoid(id);
         model.addAttribute("modoedicion", true);
         model.addAttribute("categoria", cat);
         model.addAttribute("title", "Editar Categoria");
         return "categoria/form";
     }
     @PostMapping("/actualizar")
-    private String actualizar(@ModelAttribute Categoria categoria)
+    private String actualizar(@ModelAttribute Categoria categoria, Model model)
     {
-     Categoria catOriginal= buscarPorId(categoria.getId());
-     if (catOriginal!=null)
-     {
-     catOriginal.setNombre(categoria.getNombre());
-     }
-    return "redirect:/categorias/";
+                try {
+        catServ.actualizar(categoria);
+        return "redirect:/categorias/";
+        } catch (RuntimeException e) {
+        model.addAttribute("modoedicion", true);
+        model.addAttribute("categoria", categoria);
+        model.addAttribute("title", "Nueva Categoria");
+        return "categoria/form";
     }
 
-    private void cargarDatos() {
-        categorias.add(new Categoria(1, "Utiles"));
-        categorias.add(new Categoria(2, "Manuales"));
-        categorias.add(new Categoria(3, "Tinas"));
-        categorias.add(new Categoria(4, "Lapices"));
-        categorias.add(new Categoria(5, "Boligrafos"));
     }
 
-
+/*
     private Categoria buscarPorId(int id) {
         for (Categoria c : categorias) {
             if (c.getId() == id) {
@@ -101,6 +110,6 @@ public class CategoriaController {
         }
         return null;
     }
-
+*/
 
 }
