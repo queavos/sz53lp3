@@ -8,6 +8,7 @@ import lp3.unae.demo.demoapp.repositories.CategoriaRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import lp3.unae.demo.demoapp.model.Categoria;
+import lp3.unae.demo.demoapp.repositories.CategoriaRepositoryJPA;
 
 /**
  *
@@ -15,9 +16,9 @@ import lp3.unae.demo.demoapp.model.Categoria;
  */
 @Service
 public class CategoriaService {
-    private final CategoriaRepository catRepo;
+    private final CategoriaRepositoryJPA catRepo;
 
-    public CategoriaService(CategoriaRepository catRepo) {
+    public CategoriaService(CategoriaRepositoryJPA catRepo) {
         this.catRepo = catRepo;
     }
     /*
@@ -32,7 +33,8 @@ public class CategoriaService {
     }
     public Categoria buscarpoid(int id)
     {
-        return catRepo.findById(id);
+        //catRepo.findById(id)
+        return catRepo.findById(id).get();
     }
     public void crear(Categoria cat){
         this.validarCategoria(cat);
@@ -42,7 +44,7 @@ public class CategoriaService {
         public void actualizar(Categoria cat){
         this.validarCategoria(cat);
         cat.setNombre(cat.getNombre().trim());
-        catRepo.update(cat);
+        catRepo.save (cat);
     }
          public void eliminar(int id){
         catRepo.deleteById(id);
@@ -53,9 +55,10 @@ public class CategoriaService {
         if (cat == null || cat.getNombre() == null || cat.getNombre().isEmpty()) {
             throw new IllegalArgumentException("El nombre de la categoría no puede estar vacío");
         }
+        /*
         if (catRepo.findByNombre(cat.getNombre())!= null){
         throw new IllegalArgumentException("El nombre de la categoría ya existe");
-        }
+        } */
          
     }
 }
