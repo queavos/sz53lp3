@@ -12,6 +12,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
     </head>
     <body>
         <h2 th:text="${title}"></h2>
+        <div th:if="${error}" style="color:red; font-weight:bold; ">
+            <p th:text="${error}"></p>
+        </div>
         <form th:action="${modoedicion}? @{/categorias/actualizar} : @{/categorias/guardar}" th:object="${categoria}" method="post">
             <input class="form-control" type="hidden" th:field="*{id}" > </input><br>
             <input class="form-control" type="text" th:field="*{nombre}"> </input><br>

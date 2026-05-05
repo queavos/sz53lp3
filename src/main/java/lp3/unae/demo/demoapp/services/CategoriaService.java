@@ -29,7 +29,7 @@ public class CategoriaService {
                     eliminar
       */
     public List<Categoria> listar(){
-        return catRepo.findAll();
+        return catRepo.findAllByOrderByNombreAsc();
     }
     public Categoria buscarpoid(int id)
     {
@@ -55,10 +55,10 @@ public class CategoriaService {
         if (cat == null || cat.getNombre() == null || cat.getNombre().isEmpty()) {
             throw new IllegalArgumentException("El nombre de la categoría no puede estar vacío");
         }
-        /*
+        
         if (catRepo.findByNombre(cat.getNombre())!= null){
         throw new IllegalArgumentException("El nombre de la categoría ya existe");
-        } */
+        }
          
     }
 }

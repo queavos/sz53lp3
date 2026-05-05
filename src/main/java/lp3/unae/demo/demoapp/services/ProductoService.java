@@ -1,0 +1,63 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package lp3.unae.demo.demoapp.services;
+
+import java.util.List;
+import lp3.unae.demo.demoapp.model.Producto;
+import lp3.unae.demo.demoapp.repositories.ProductoRepositoryJPA;
+import org.springframework.stereotype.Service;
+
+/**
+ *
+ * @author ossva
+ */
+@Service
+public class ProductoService {
+    private final ProductoRepositoryJPA repositorio;
+
+    public ProductoService(ProductoRepositoryJPA repositorio) {
+        this.repositorio = repositorio;
+    }
+    public List<Producto> lista(){
+           return repositorio.findAll();
+    }
+    public Producto buscarPorId(int id){
+           return repositorio.findById(id).get();
+    }
+    public void guardar(Producto dato){
+        validar(dato);
+        if (dato.getEstado()==null){
+            dato.setEstado(true);
+        }
+        repositorio.save(dato);
+    }
+public void eliminar(int id) {
+    repositorio.deleteById(id);
+
+    }
+    public void validar(Producto dato){
+        /*
+        if (cat == null || cat.getNombre() == null || cat.getNombre().isEmpty()) {
+            throw new IllegalArgumentException("El nombre de la categoría no puede estar vacío");
+        }        
+        */
+       if (dato.getNombre()==null || dato.getNombre().trim().isEmpty()){
+       throw new IllegalArgumentException("El nombre de la Producto no puede estar vacío");
+       }
+       if ((dato.getCategoria()==null) )// || (dato.getCategoria().getId()==null
+       {
+       throw new IllegalArgumentException("El Categoria no puede estar vacío");
+       }
+        if (dato.getPrecio() == null || dato.getPrecio() < 0) {
+            throw new IllegalArgumentException("El precio del producto no puede ser nulo o negativo");
+        }
+    
+    
+    }
+    
+    
+    
+    
+}

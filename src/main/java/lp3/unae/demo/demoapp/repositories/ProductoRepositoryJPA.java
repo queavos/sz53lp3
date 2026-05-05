@@ -4,17 +4,13 @@
  */
 package lp3.unae.demo.demoapp.repositories;
 
-import java.util.List;
-import lp3.unae.demo.demoapp.model.Categoria;
+import lp3.unae.demo.demoapp.model.Producto;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
  * @author ossva
  */
-public interface CategoriaRepositoryJPA extends JpaRepository<Categoria, Integer> {
-    Categoria findByNombre(String nombre);
-    List<Categoria> findAllByOrderByIdAsc();
-    List<Categoria> findAllByOrderByNombreAsc();
+public interface ProductoRepositoryJPA extends JpaRepository<Producto, Integer> {
     
 }

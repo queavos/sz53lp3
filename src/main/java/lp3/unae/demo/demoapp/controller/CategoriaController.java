@@ -61,6 +61,7 @@ public class CategoriaController {
         catServ.crear(categoria);
         return "redirect:/categorias/";
         } catch (RuntimeException e) {
+        model.addAttribute("error",e.getMessage());
         model.addAttribute("modoedicion", false);
         model.addAttribute("categoria", categoria);
         model.addAttribute("title", "Nueva Categoria");
@@ -93,6 +94,7 @@ public class CategoriaController {
         catServ.actualizar(categoria);
         return "redirect:/categorias/";
         } catch (RuntimeException e) {
+        model.addAttribute("error",e.getMessage());
         model.addAttribute("modoedicion", true);
         model.addAttribute("categoria", categoria);
         model.addAttribute("title", "Nueva Categoria");
