@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title th:text="${title}"></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    </head>
+    <body>
+        <h2 th:text="${title}"></h2>
+        
+        <!-- Mensaje de error -->
+        <div th:if="${error}" style="color:red; font-weight:bold;">
+            <p th:text="${error}"></p>
+        </div>
+        
+        <!-- Formulario Producto -->
+        <form th:action="${modoedicion}? @{/productos/actualizar} : @{/productos/guardar}" 
+              th:object="${dato}" method="post">
+            
+            <!-- Campo oculto ID -->
+            <input class="form-control" type="hidden" th:field="*{id}"><br>
+            
+            <!-- Nombre -->
+            <label for="nombre">Nombre:</label>
+            <input class="form-control" type="text" th:field="*{nombre}" required maxlength="100"><br>
+            
+            <!-- Precio -->
+            <label for="precio">Precio:</label>
+            <input class="form-control" type="number" step="0.01" th:field="*{precio}"><br>
+            
+            <!-- Categoría (FK) -->
+            <label for="categoria_id">Categoría:</label>
+            <select class="form-control" th:field="*{categoria}">
+                <option th:each="cat : ${categorias}" 
+                        th:value="${cat.id}" 
+                        th:text="${cat.nombre}">
+                </option>
+            </select><br>
+            
+            <!-- Estado -->
+            <label for="estado">Estado:</label>
+            <select class="form-control" th:field="*{estado}">
+                <option th:value="true">Activo</option>
+                <option th:value="false">Inactivo</option>
+            </select><br>
+            
+            <!-- Botones -->
+            <a class="btn btn-outline-secondary" href="/productos/">Volver</a>
+            <button class="btn btn-outline-primary" type="submit">Enviar</button>
+        </form>
+        
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    </body>
+</html>

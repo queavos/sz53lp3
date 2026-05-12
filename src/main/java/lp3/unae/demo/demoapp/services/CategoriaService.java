@@ -55,10 +55,13 @@ public class CategoriaService {
         if (cat == null || cat.getNombre() == null || cat.getNombre().isEmpty()) {
             throw new IllegalArgumentException("El nombre de la categoría no puede estar vacío");
         }
-        
-        if (catRepo.findByNombre(cat.getNombre())!= null){
+     
+        Categoria categoria=catRepo.findByNombre(cat.getNombre());
+        if ((categoria !=null) && (cat.getId() != (categoria.getId())))
+        {
         throw new IllegalArgumentException("El nombre de la categoría ya existe");
         }
+        
          
     }
 }

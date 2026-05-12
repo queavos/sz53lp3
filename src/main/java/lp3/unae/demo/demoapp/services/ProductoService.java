@@ -38,14 +38,18 @@ public void eliminar(int id) {
 
     }
     public void validar(Producto dato){
-        /*
-        if (cat == null || cat.getNombre() == null || cat.getNombre().isEmpty()) {
-            throw new IllegalArgumentException("El nombre de la categoría no puede estar vacío");
-        }        
-        */
+        
+        
        if (dato.getNombre()==null || dato.getNombre().trim().isEmpty()){
        throw new IllegalArgumentException("El nombre de la Producto no puede estar vacío");
        }
+       Producto existente=repositorio.findByNombre(dato.getNombre());
+       if ((existente!=null) && (dato.getId()!=existente.getId()))
+       {
+           throw new IllegalArgumentException("El nombre de la Producto no puede ser repetido");
+       }
+       
+       
        if ((dato.getCategoria()==null) )// || (dato.getCategoria().getId()==null
        {
        throw new IllegalArgumentException("El Categoria no puede estar vacío");
