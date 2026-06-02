@@ -18,15 +18,25 @@ import jakarta.persistence.ManyToOne;
 @Entity
 // stock, estado, categoria nombre, precio
 public class Producto {
+
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false, length = 100)
     private String nombre;
     @ManyToOne
-    private Categoria categoria; 
+    private Categoria categoria;
     private Double precio;
     private Boolean estado;
+    private Integer stock;
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
 
     public Boolean getEstado() {
         return estado;
@@ -35,9 +45,9 @@ public class Producto {
     public void setEstado(Boolean estado) {
         this.estado = estado;
     }
+
     public Producto() {
     }
-    
 
     public Long getId() {
         return id;
@@ -70,5 +80,5 @@ public class Producto {
     public void setPrecio(Double precio) {
         this.precio = precio;
     }
-    
+
 }

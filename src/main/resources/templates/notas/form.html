@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}">Nueva Nota</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+
+<div class="container mt-4">
+
+    <h2 th:text="${title}">Nueva Nota de Envío</h2>
+
+    <form method="post">
+
+        <div class="card mb-3">
+            <div class="card-header">
+                Cabecera de la nota
+            </div>
+
+            <div class="card-body">
+
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label class="form-label">Fecha</label>
+                        <input type="date"
+                               name="fecha"
+                               class="form-control"
+                               th:value="${nota.fecha}"
+                               required>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Nro.</label>
+                        <input type="number"
+                               name="nro"
+                               class="form-control"
+                               th:value="${nota.nro}">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Proveedor</label>
+                        <input type="text"
+                               name="proveedor"
+                               class="form-control"
+                               th:value="${nota.proveedor}"
+                               required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Observación</label>
+                    <textarea name="observacion"
+                              class="form-control"
+                              rows="2"
+                              th:text="${nota.observacion}"></textarea>
+                </div>
+
+                <input type="hidden" name="verificado" th:value="${nota.verificado}">
+                <input type="hidden" name="procesado" th:value="${nota.procesado}">
+
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                Agregar producto al detalle
+            </div>
+
+            <div class="card-body">
+
+                <div class="row mb-3">
+
+                    <div class="col-md-5">
+                        <label class="form-label">Producto</label>
+                        <select name="productoId" class="form-select">
+                            <option value="">Seleccione un producto</option>
+                            <option th:each="producto : ${productos}"
+                                    th:value="${producto.id}"
+                                    th:text="${producto.nombre}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Cantidad</label>
+                        <input type="number"
+                               name="cantidad"
+                               class="form-control"
+                               min="1">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Precio</label>
+                        <input type="number"
+                               name="precio"
+                               class="form-control"
+                               step="0.01"
+                               min="1">
+                    </div>
+
+                    <div class="col-md-1 d-flex align-items-end">
+                        <button type="submit"
+                                class="btn btn-success w-100"
+                                th:formaction="@{/notas/detalle/agregar}">
+                            +
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div th:replace="~{notas/_detalle :: tablaDetalle(${detalles})}"></div>
+
+        <div class="mt-3">
+            <button type="submit"
+                    class="btn btn-primary"
+                    th:formaction="@{/notas/guardar}">
+                Guardar nota
+            </button>
+
+            <a class="btn btn-secondary" th:href="@{/notas}">
+                Cancelar
+            </a>
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

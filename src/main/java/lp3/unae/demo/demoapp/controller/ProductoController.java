@@ -73,14 +73,14 @@ public class ProductoController {
     }
 
     @GetMapping("/eliminar/{id}")
-    public String eliminar(@PathVariable int id) {
+    public String eliminar(@PathVariable Long id) {
         // productoss.removeIf(c -> c.getId() == id);
         servicio.eliminar(id);
         return "redirect:/productos/";
     }
 
     @GetMapping("/editar/{id}")
-    private String Editar(@PathVariable int id, Model model) {
+    private String Editar(@PathVariable Long id, Model model) {
         Producto dato = servicio.buscarPorId(id);
         List<Categoria> categorias = catServ.listar();
         model.addAttribute("modoedicion", true);

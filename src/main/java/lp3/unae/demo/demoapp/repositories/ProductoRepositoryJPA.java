@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author ossva
  */
-public interface ProductoRepositoryJPA extends JpaRepository<Producto, Integer> {
+public interface ProductoRepositoryJPA extends JpaRepository<Producto, Long> {
     Producto findByNombre(String nombre);
     List<Producto> findAllByOrderByIdAsc();
     List<Producto> findAllByOrderByIdDesc();

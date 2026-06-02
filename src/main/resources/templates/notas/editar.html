@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}">Editar Nota</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+
+<div class="container mt-4">
+
+    <h2 th:text="${title}">Editar Nota de Envío</h2>
+
+    <form th:action="@{/notas/actualizar/{id}(id=${nota.id})}"
+          method="post">
+
+        <div class="card">
+            <div class="card-header">
+                Cabecera de la nota
+            </div>
+
+            <div class="card-body">
+
+                <div class="row mb-3">
+
+                    <div class="col-md-3">
+                        <label class="form-label">Fecha</label>
+                        <input type="date"
+                               name="fecha"
+                               class="form-control"
+                               th:value="${nota.fecha}"
+                               required>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Nro.</label>
+                        <input type="number"
+                               name="nro"
+                               class="form-control"
+                               th:value="${nota.nro}">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Proveedor</label>
+                        <input type="text"
+                               name="proveedor"
+                               class="form-control"
+                               th:value="${nota.proveedor}"
+                               required>
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Observación</label>
+                    <textarea name="observacion"
+                              class="form-control"
+                              rows="3"
+                              th:text="${nota.observacion}"></textarea>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">
+                Actualizar cabecera
+            </button>
+
+            <a class="btn btn-secondary"
+               th:href="@{/notas/ver/{id}(id=${nota.id})}">
+                Cancelar
+            </a>
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

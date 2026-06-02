@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package lp3.unae.demo.demoapp.model;
 
 import jakarta.persistence.Entity;
@@ -9,23 +5,23 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
 
-/**
- *
- * @author ossva id producto cantiad precio
- *
- */
 @Entity
 public class DetalleNotaEnvio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
     private NotaEnvio notaEnvio;
+
     @ManyToOne
     private Producto producto;
-    private Long cantidad;
+
+    private Integer cantidad;
+
     private Double precio;
 
     public DetalleNotaEnvio() {
@@ -39,6 +35,14 @@ public class DetalleNotaEnvio {
         this.id = id;
     }
 
+    public NotaEnvio getNotaEnvio() {
+        return notaEnvio;
+    }
+
+    public void setNotaEnvio(NotaEnvio notaEnvio) {
+        this.notaEnvio = notaEnvio;
+    }
+
     public Producto getProducto() {
         return producto;
     }
@@ -47,11 +51,11 @@ public class DetalleNotaEnvio {
         this.producto = producto;
     }
 
-    public Long getCantidad() {
+    public Integer getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(Long cantidad) {
+    public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }
 
@@ -62,6 +66,24 @@ public class DetalleNotaEnvio {
     public void setPrecio(Double precio) {
         this.precio = precio;
     }
-    
 
+    @Transient
+    public Double getSubtotal() {
+
+        if (cantidad == null || precio == null) {
+            return 0.0;
+        }
+
+        return cantidad * precio;
+    }
+
+    @Override
+    public String toString() {
+        return "DetalleNotaEnvio{" +
+                "id=" + id +
+                ", producto=" + producto +
+                ", cantidad=" + cantidad +
+                ", precio=" + precio +
+                '}';
+    }
 }

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}">Ver Nota</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+
+<div class="container mt-4">
+
+    <h2 th:text="${title}">Detalle de Nota</h2>
+
+    <div class="card mb-3">
+        <div class="card-header">
+            Cabecera
+        </div>
+
+        <div class="card-body">
+            <p><strong>Id:</strong> <span th:text="${nota.id}"></span></p>
+            <p><strong>Fecha:</strong> <span th:text="${nota.fecha}"></span></p>
+            <p><strong>Nro.:</strong> <span th:text="${nota.nro}"></span></p>
+            <p><strong>Proveedor:</strong> <span th:text="${nota.proveedor}"></span></p>
+            <p><strong>Estado:</strong> <span th:text="${nota.estadoTexto}"></span></p>
+            <p><strong>Verificado:</strong> <span th:text="${nota.verificado}"></span></p>
+            <p><strong>Procesado:</strong> <span th:text="${nota.procesado}"></span></p>
+            <p><strong>Observación:</strong> <span th:text="${nota.observacion}"></span></p>
+        </div>
+    </div>
+
+<div class="mb-3">
+
+    <div th:if="${nota.verificado == 0 and nota.procesado == 0}">
+
+        <a class="btn btn-warning"
+           th:href="@{/notas/editar/{id}(id=${nota.id})}">
+            Editar cabecera
+        </a>
+
+        <a class="btn btn-danger"
+           th:href="@{/notas/eliminar/{id}(id=${nota.id})}">
+            Eliminar nota
+        </a>
+
+        <form th:action="@{/notas/verificar/{id}(id=${nota.id})}"
+              method="post"
+              style="display:inline;">
+            <button type="submit" class="btn btn-success">
+                Verificar nota
+            </button>
+        </form>
+
+    </div>
+
+    <div th:if="${nota.verificado == 1 and nota.procesado == 0}">
+
+        <form th:action="@{/notas/desverificar/{id}(id=${nota.id})}"
+              method="post"
+              style="display:inline;">
+            <button type="submit" class="btn btn-outline-warning">
+                Volver a nueva
+            </button>
+        </form>
+
+        <form th:action="@{/notas/procesar/{id}(id=${nota.id})}"
+              method="post"
+              style="display:inline;">
+            <button type="submit" class="btn btn-success">
+                Procesar e impactar stock
+            </button>
+        </form>
+
+    </div>
+
+    <div th:if="${nota.verificado == 1 and nota.procesado == 1}">
+        <span class="badge bg-success">
+            Nota procesada
+        </span>
+    </div>
+
+    <div th:if="${nota.verificado == 0 and nota.procesado == 1}">
+        <span class="badge bg-danger">
+            Estado inconsistente
+        </span>
+    </div>
+
+</div>
+
+    <div class="card mb-3" th:if="${nota.editable}">
+        <div class="card-header">
+            Agregar producto a nota guardada
+        </div>
+
+        <div class="card-body">
+
+            <form th:action="@{/notas/detalle/agregar-guardado/{id}(id=${nota.id})}"
+                  method="post">
+
+                <div class="row">
+
+                    <div class="col-md-5">
+                        <label class="form-label">Producto</label>
+                        <select name="productoId" class="form-select">
+                            <option value="">Seleccione un producto</option>
+                            <option th:each="producto : ${productos}"
+                                    th:value="${producto.id}"
+                                    th:text="${producto.nombre}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Cantidad</label>
+                        <input type="number" name="cantidad" class="form-control" min="1">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Precio</label>
+                        <input type="number" name="precio" class="form-control" step="0.01" min="1">
+                    </div>
+
+                    <div class="col-md-1 d-flex align-items-end">
+                        <button class="btn btn-success w-100" type="submit">
+                            +
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header">
+            Detalle
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Subtotal</th>
+                        <th th:if="${nota.editable}">Acción</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr th:each="detalle : ${nota.detalles}">
+                        <td th:text="${detalle.producto.nombre}"></td>
+                        <td th:text="${detalle.cantidad}"></td>
+                        <td th:text="${detalle.precio}"></td>
+                        <td th:text="${detalle.subtotal}"></td>
+                        <td th:if="${nota.editable}">
+                            <a class="btn btn-sm btn-outline-danger"
+                               th:href="@{/notas/detalle/eliminar-guardado/{notaId}/{detalleId}(notaId=${nota.id}, detalleId=${detalle.id})}">
+                                Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <a class="btn btn-secondary" th:href="@{/notas}">
+        Volver
+    </a>
+
+</div>
+
+</body>
+</html>

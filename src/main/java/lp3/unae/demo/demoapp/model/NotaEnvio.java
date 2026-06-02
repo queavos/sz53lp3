@@ -1,53 +1,44 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package lp3.unae.demo.demoapp.model;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
-/**
- *
- * @author ossva
- */
 @Entity
 public class NotaEnvio {
 
-    /* 
-    Id
-    fecha
-    nro
-    detalles
-    confirmado
-    procesado
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    //@Column(nullable = false, length = 100);
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fecha;
+
     private Long nro;
-    
+
+    private String proveedor;
+
+    private String observacion;
+
+    private Integer verificado = 0;
+
+    private Integer procesado = 0;
+
     @OneToMany(
-            mappedBy="notaEnvio",
-            cascade =CascadeType.ALL,
-            fetch= FetchType.EAGER
+        mappedBy = "notaEnvio",
+        cascade = CascadeType.ALL,
+        fetch = FetchType.EAGER
     )
     private List<DetalleNotaEnvio> detalles = new ArrayList<>();
-    private Boolean confirmado;
-    private Boolean porcesado;
 
     public NotaEnvio() {
     }
@@ -76,6 +67,38 @@ public class NotaEnvio {
         this.nro = nro;
     }
 
+    public String getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(String proveedor) {
+        this.proveedor = proveedor;
+    }
+
+    public String getObservacion() {
+        return observacion;
+    }
+
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
+    }
+
+    public Integer getVerificado() {
+        return verificado;
+    }
+
+    public void setVerificado(Integer verificado) {
+        this.verificado = verificado;
+    }
+
+    public Integer getProcesado() {
+        return procesado;
+    }
+
+    public void setProcesado(Integer procesado) {
+        this.procesado = procesado;
+    }
+
     public List<DetalleNotaEnvio> getDetalles() {
         return detalles;
     }
@@ -84,21 +107,46 @@ public class NotaEnvio {
         this.detalles = detalles;
     }
 
-    public Boolean getConfirmado() {
-        return confirmado;
+    @Transient
+    public String getEstadoTexto() {
+
+        if (verificado == null || procesado == null) {
+            return "Sin estado";
+        }
+
+        if (verificado == 0 && procesado == 0) {
+            return "Nueva";
+        }
+
+        if (verificado == 1 && procesado == 0) {
+            return "Verificada";
+        }
+
+        if (verificado == 1 && procesado == 1) {
+            return "Procesada";
+        }
+
+        return "Estado inconsistente";
     }
 
-    public void setConfirmado(Boolean confirmado) {
-        this.confirmado = confirmado;
+    @Transient
+    public Boolean getEditable() {
+        return verificado != null
+                && procesado != null
+                && verificado == 0
+                && procesado == 0;
     }
 
-    public Boolean getPorcesado() {
-        return porcesado;
+    @Override
+    public String toString() {
+        return "NotaEnvio{" +
+                "id=" + id +
+                ", fecha=" + fecha +
+                ", nro=" + nro +
+                ", proveedor=" + proveedor +
+                ", observacion=" + observacion +
+                ", verificado=" + verificado +
+                ", procesado=" + procesado +
+                '}';
     }
-
-    public void setPorcesado(Boolean porcesado) {
-        this.porcesado = porcesado;
-    }
-    
-    
 }
