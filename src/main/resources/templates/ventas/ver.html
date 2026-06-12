@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}">Venta</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body class="container mt-4">
+
+<h2 th:text="${title}">Venta</h2>
+
+<div class="card mb-4">
+    <div class="card-header">
+        Cabecera
+    </div>
+    <div class="card-body">
+        <p><strong>ID:</strong> <span th:text="${venta.id}"></span></p>
+        <p><strong>Fecha:</strong> <span th:text="${venta.fecha}"></span></p>
+        <p><strong>Cliente:</strong> <span th:text="${venta.cliente.nombre}"></span></p>
+        <p><strong>Documento:</strong> <span th:text="${venta.cliente.documento}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${venta.cliente.email}"></span></p>
+
+        <p>
+            <strong>Estado:</strong>
+            <span th:if="${venta.procesado == 0}" class="badge bg-warning">Nueva</span>
+            <span th:if="${venta.procesado == 1}" class="badge bg-success">Procesada</span>
+        </p>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        Detalle
+    </div>
+    <div class="card-body">
+
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio unitario</th>
+                <th>Gravada</th>
+                <th>IVA incluido</th>
+                <th>Subtotal</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="detalle : ${venta.detalles}">
+                <td th:text="${detalle.producto.nombre}"></td>
+                <td th:text="${detalle.cantidad}"></td>
+                <td th:text="${detalle.precioUnitario}"></td>
+                <td th:text="${detalle.gravada}"></td>
+                <td th:text="${detalle.iva}"></td>
+                <td th:text="${detalle.subtotal}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        Totales
+    </div>
+    <div class="card-body">
+        <p><strong>Total gravada:</strong> <span th:text="${venta.totalGravada}"></span></p>
+        <p><strong>Total IVA incluido:</strong> <span th:text="${venta.totalIva}"></span></p>
+        <p><strong>Total venta:</strong> <span th:text="${venta.totalVenta}"></span></p>
+    </div>
+</div>
+
+<a class="btn btn-success"
+   th:if="${venta.procesado == 0}"
+   th:href="@{/ventas/procesar/{id}(id=${venta.id})}">
+    Procesar venta
+</a>
+
+<a class="btn btn-secondary" th:href="@{/ventas}">Volver</a>
+
+</body>
+</html>

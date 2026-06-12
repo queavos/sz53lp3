@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}">Venta</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body class="container mt-4">
+
+<h2 th:text="${title}">Venta</h2>
+
+<div class="card mb-4">
+    <div class="card-header">
+        Datos de la venta
+    </div>
+    <div class="card-body">
+
+        <form th:action="@{/ventas/guardar}" method="post">
+
+            <div class="mb-3">
+                <label class="form-label">Cliente</label>
+                <select class="form-select" name="clienteId" required>
+                    <option value="">Seleccione un cliente</option>
+                    <option th:each="cliente : ${clientes}"
+                            th:value="${cliente.id}"
+                            th:text="${cliente.nombre}">
+                    </option>
+                </select>
+            </div>
+
+            <button class="btn btn-success" type="submit">Guardar venta</button>
+            <a class="btn btn-secondary" th:href="@{/ventas}">Cancelar</a>
+
+        </form>
+
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        Agregar producto al detalle
+    </div>
+    <div class="card-body">
+
+        <form th:action="@{/ventas/agregar-detalle}" method="post">
+
+            <div class="row">
+
+                <div class="col-md-8">
+                    <label class="form-label">Producto</label>
+                    <select class="form-select" name="productoId" required>
+                        <option value="">Seleccione un producto</option>
+                        <option th:each="producto : ${productos}"
+                                th:value="${producto.id}"
+                                th:text="${producto.nombre + ' - Stock: ' + producto.stock + ' - Precio: ' + producto.precio}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label">Cantidad</label>
+                    <input class="form-control" type="number" name="cantidad" min="1" required>
+                </div>
+
+                <div class="col-md-2 d-flex align-items-end">
+                    <button class="btn btn-primary w-100" type="submit">Agregar</button>
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        Detalle temporal de la venta
+    </div>
+    <div class="card-body">
+
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio unitario</th>
+                <th>Gravada</th>
+                <th>IVA incluido</th>
+                <th>Subtotal</th>
+                <th>Acción</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="detalle, iter : ${detalleVenta}">
+                <td th:text="${detalle.producto.nombre}"></td>
+                <td th:text="${detalle.cantidad}"></td>
+                <td th:text="${detalle.precioUnitario}"></td>
+                <td th:text="${detalle.gravada}"></td>
+                <td th:text="${detalle.iva}"></td>
+                <td th:text="${detalle.subtotal}"></td>
+                <td>
+                    <a class="btn btn-sm btn-danger"
+                       th:href="@{/ventas/quitar-detalle/{index}(index=${iter.index})}">
+                        Quitar
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+</body>
+</html>

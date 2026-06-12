@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}">Cliente</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body class="container mt-4">
+
+<h2 th:text="${title}">Cliente</h2>
+
+<form th:action="@{/clientes/guardar}" th:object="${cliente}" method="post">
+
+    <input type="hidden" th:field="*{id}">
+
+    <div class="mb-3">
+        <label class="form-label">Nombre</label>
+        <input class="form-control" type="text" th:field="*{nombre}" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Documento</label>
+        <input class="form-control" type="text" th:field="*{documento}" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Teléfono</label>
+        <input class="form-control" type="text" th:field="*{telefono}">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Dirección</label>
+        <input class="form-control" type="text" th:field="*{direccion}">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input class="form-control" type="email" th:field="*{email}">
+    </div>
+
+    <button class="btn btn-success" type="submit">Guardar</button>
+    <a class="btn btn-secondary" th:href="@{/clientes}">Cancelar</a>
+
+</form>
+
+</body>
+</html>

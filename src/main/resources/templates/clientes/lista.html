@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}">Clientes</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body class="container mt-4">
+
+<h2 th:text="${title}">Clientes</h2>
+
+<a class="btn btn-primary mb-3" th:href="@{/clientes/nuevo}">Nuevo cliente</a>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Documento</th>
+        <th>Teléfono</th>
+        <th>Email</th>
+        <th colspan="2">Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="cliente : ${clientes}">
+        <td th:text="${cliente.id}"></td>
+        <td th:text="${cliente.nombre}"></td>
+        <td th:text="${cliente.documento}"></td>
+        <td th:text="${cliente.telefono}"></td>
+        <td th:text="${cliente.email}"></td>
+        <td>
+            <a class="btn btn-sm btn-warning"
+               th:href="@{/clientes/editar/{id}(id=${cliente.id})}">
+                Editar
+            </a>
+        </td>
+        <td>
+            <a class="btn btn-sm btn-danger"
+               th:href="@{/clientes/eliminar/{id}(id=${cliente.id})}">
+                Eliminar
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<a class="btn btn-secondary" th:href="@{/}">Volver</a>
+
+</body>
+</html>
