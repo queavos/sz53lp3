@@ -15,6 +15,7 @@ import lp3.unae.demo.demoapp.model.NotaEnvio;
 import lp3.unae.demo.demoapp.model.Producto;
 import lp3.unae.demo.demoapp.services.NotaEnvioService;
 import lp3.unae.demo.demoapp.services.ProductoService;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -250,7 +251,7 @@ public class NotaEnvioController {
 
         return nota;
     }
-
+@PreAuthorize("hasAnyRole('ADMIN','STOCK')")
     @PostMapping("/verificar/{id}")
     public String verificar(@PathVariable Long id) {
 
@@ -258,7 +259,7 @@ public class NotaEnvioController {
 
         return "redirect:/notas/ver/" + id;
     }
-
+@PreAuthorize("hasAnyRole('ADMIN','STOCK')")
     @PostMapping("/desverificar/{id}")
     public String desverificar(@PathVariable Long id) {
 
@@ -266,7 +267,7 @@ public class NotaEnvioController {
 
         return "redirect:/notas/ver/" + id;
     }
-
+@PreAuthorize("hasAnyRole('ADMIN','STOCK')")
     @PostMapping("/procesar/{id}")
     public String procesar(@PathVariable Long id) {
 

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Sistema de Papelería</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body class="container mt-4">
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2>Sistema de Gestión de Papelería</h2>
+        <p class="text-muted mb-0">
+            Menú principal de la aplicación
+        </p>
+    </div>
+
+    <form th:action="@{/logout}" method="post">
+        <button class="btn btn-outline-danger" type="submit">
+            Cerrar sesión
+        </button>
+    </form>
+</div>
+
+<div class="alert alert-info">
+    Usuario conectado:
+    <strong sec:authentication="name">usuario</strong>
+</div>
+
+<div class="row g-3">
+
+    <div class="col-md-4" sec:authorize="hasAnyRole('ADMIN','STOCK')">
+        <a class="btn btn-outline-primary w-100" th:href="@{/categorias/}">
+            Categorías
+        </a>
+    </div>
+
+    <div class="col-md-4" sec:authorize="hasAnyRole('ADMIN','STOCK')">
+        <a class="btn btn-outline-primary w-100" th:href="@{/productos/}">
+            Productos
+        </a>
+    </div>
+
+    <div class="col-md-4" sec:authorize="hasAnyRole('ADMIN','VENDEDOR')">
+        <a class="btn btn-outline-primary w-100" th:href="@{/clientes}">
+            Clientes
+        </a>
+    </div>
+
+    <div class="col-md-4" sec:authorize="hasAnyRole('ADMIN','STOCK')">
+        <a class="btn btn-outline-success w-100" th:href="@{/notas}">
+            Notas de Envío
+        </a>
+    </div>
+
+    <div class="col-md-4" sec:authorize="hasAnyRole('ADMIN','VENDEDOR')">
+        <a class="btn btn-outline-success w-100" th:href="@{/ventas}">
+            Ventas
+        </a>
+    </div>
+
+    <div class="col-md-4" sec:authorize="hasRole('ADMIN')">
+        <a class="btn btn-outline-dark w-100" th:href="@{/usuarios}">
+            Usuarios
+        </a>
+    </div>
+
+</div>
+
+<hr class="my-4">
+
+<div class="card">
+    <div class="card-header">
+        Criterio de seguridad aplicado
+    </div>
+    <div class="card-body">
+        <ul class="mb-0">
+            <li><strong>ADMIN:</strong> acceso general.</li>
+            <li><strong>STOCK:</strong> categorías, productos y notas de envío.</li>
+            <li><strong>VENDEDOR:</strong> clientes y ventas.</li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>
